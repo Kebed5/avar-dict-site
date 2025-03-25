@@ -7,6 +7,7 @@ from asgiref.sync import sync_to_async
 from django.db.models import Q
 from django.contrib.postgres.search import TrigramSimilarity
 from deep_translator import GoogleTranslator
+import asyncio
 
 # ✅ Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'avar_dict_site.settings')
@@ -27,6 +28,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.message.text.strip()
     print(f"📥 Received message: {query}")
 
+    # 🔧 Debug: always reply something first
+    await update.message.reply_text(f"🛠️ Debug: I got your message \"{query}\"")
+
     @sync_to_async
     def search_entries():
         return list(
@@ -38,11 +42,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     matches = await search_entries()
-    
+
     if matches:
         results = "\n".join([f"📘 {entry.avar_word} — 🇷🇺 {entry.russian_translations}" for entry in matches])
     else:
-        # 🔁 Try to translate using Google Translate
         try:
             translated = GoogleTranslator(source='auto', target='ru').translate(query)
             results = f"🤖 Not found in dictionary. Translation: \"{translated}\""
@@ -52,18 +55,23 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(results)
 
 
-# 🚀 Main function to run the bot
-def main():
+async def run_bot():
     app = ApplicationBuilder().token("7597669860:AAEczhlKat_HyjW_pVxED4M9xKs1PbSM5Fo").build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     print("🤖 Bot is running...")
-    app.run_polling()
+    await app.run_polling()
 
 if __name__ == '__main__':
-    main()
+    try:
+        asyncio.run(run_bot())
+    except RuntimeError as e:
+        # If event loop is already running (e.g., on Render)
+        loop = asyncio.get_event_loop()
+        loop.create_task(run_bot())
+        loop.run_forever()
 
 
 
