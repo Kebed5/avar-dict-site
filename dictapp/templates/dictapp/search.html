@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avar Dictionary Search</title>
+</head>
+<body>
+    <h1>🔍 Search Avar Dictionary</h1>
+    <form method="GET">
+        <input type="text" name="q" placeholder="Enter Avar word..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results %}
+        <h2>Results:</h2>
+        <ul>
+            {% for entry in results %}
+                <li>
+                    <strong>Avar:</strong> {{ entry.avar_word }} <br>
+                    <strong>Russian:</strong> {{ entry.russian_translations }} <br>
+                    <strong>English:</strong> {{ entry.english_translations }} <br>
+                    <strong>Examples:</strong> {{ entry.examples }}
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% elif query %}
+        <p>No results found for "<strong>{{ query }}</strong>".</p>
+    {% endif %}
+</body>
+</html>
+
