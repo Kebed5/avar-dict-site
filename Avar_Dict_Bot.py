@@ -6,6 +6,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Con
 from asgiref.sync import sync_to_async
 from django.db.models import Q
 from django.contrib.postgres.search import TrigramSimilarity
+from deep_translator import GoogleTranslator
 
 # ✅ Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'avar_dict_site.settings')
@@ -37,13 +38,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     matches = await search_entries()
-
+    
     if matches:
-        results = "\n".join(
-            [f"📘 {entry.avar_word} — 🇷🇺 {entry.russian_translations} — 🇬🇧 {entry.english_translations}" for entry in matches]
-        )
+        results = "\n".join([f"📘 {entry.avar_word} — 🇷🇺 {entry.russian_translations}" for entry in matches])
     else:
-        results = f"❌ No close results found for \"{query}\""
+        # 🔁 Try to translate using Google Translate
+        try:
+            translated = GoogleTranslator(source='auto', target='ru').translate(query)
+            results = f"🤖 Not found in dictionary. Translation: \"{translated}\""
+        except Exception as e:
+            results = f"❌ No match and translation failed: {e}"
 
     await update.message.reply_text(results)
 
