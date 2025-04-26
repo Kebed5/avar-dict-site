@@ -2,6 +2,7 @@ import os
 import django
 import pandas as pd
 
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "avar_dict_site.settings")
 django.setup()
 
@@ -26,4 +27,5 @@ for index, row in df.iterrows():
         )
     except IntegrityError:
         print(f"⚠️ Skipped duplicate: {row['AVAR']}")
+
 

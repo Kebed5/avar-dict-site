@@ -3,9 +3,13 @@ from .models import AudioEntry, Entry, SuggestedEntry
 from django.utils.html import format_html
 
 
+# Register AudioEntry (if no custom admin needed)
+admin.site.register(AudioEntry)
+
 # ✅ Entry with custom admin
 @admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
+<<<<<<< HEAD
     list_display = ("avar_word", "russian_translations", "english_translations", "created_by", "created_at")
 
 # ✅ SuggestedEntry with approval action
@@ -32,6 +36,7 @@ def approve_entries(self, request, queryset):
 @admin.register(AudioEntry)
 class AudioEntryAdmin(admin.ModelAdmin):
     list_display = ("entry", "audio_file", "uploaded_by", "uploaded_at")
+
 
     def audio_tag(self, obj):
         if obj.audio_file:

@@ -128,3 +128,4 @@ def reject_suggestion_view(request, suggestion_id):
     suggestion.delete()
     messages.error(request, "❌ Suggestion rejected and deleted.")
     return redirect('review_suggestions')
+
