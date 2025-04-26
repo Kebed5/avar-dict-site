@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h2>Suggest a New Word</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Suggestion</button>
+</form>
+
+{% endblock %}
+
+

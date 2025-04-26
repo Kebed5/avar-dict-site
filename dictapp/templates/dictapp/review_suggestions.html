@@ -1,0 +1,21 @@
+{% extends "dictapp/base_generic.html" %}
+{% block content %}
+<h2>Review Suggested Entries</h2>
+
+<ul class="list-group">
+    {% for suggestion in suggestions %}
+        <li class="list-group-item mb-3">
+            <strong>Avar:</strong> {{ suggestion.avar_word }}<br>
+            <strong>Russian:</strong> {{ suggestion.russian_translations }}<br>
+            <strong>English:</strong> {{ suggestion.english_translations }}<br>
+            <strong>Examples:</strong> {{ suggestion.examples }}<br>
+            <strong>Suggested by:</strong> {{ suggestion.suggested_by }}<br>
+            <a href="{% url 'approve_suggestion' suggestion.id %}" class="btn btn-success btn-sm mt-2">Approve</a>
+            <a href="{% url 'reject_suggestion' suggestion.id %}" class="btn btn-danger btn-sm mt-2">Reject</a>
+        </li>
+    {% empty %}
+        <li>No pending suggestions! 🎉</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
