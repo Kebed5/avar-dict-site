@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.postgres.search import TrigramSimilarity
-<<<<<<< HEAD
 from django.contrib.auth.models import User
 
 class Entry(models.Model):
@@ -16,7 +15,6 @@ class Entry(models.Model):
 
 
 class SuggestedEntry(models.Model):
-<<<<<<< HEAD
     avar_word = models.CharField(max_length=255)
     russian_translations = models.TextField()
     english_translations = models.TextField(blank=True, null=True)
@@ -37,7 +35,7 @@ class AudioEntry(models.Model):
 
     def __str__(self):
         return f"Audio for {self.entry.avar_word}"
-=======
+
     user_id = models.BigIntegerField()
     avar_word = models.CharField(max_length=255)
     russian_translation = models.TextField()
@@ -58,4 +56,3 @@ class AudioEntry(models.Model):
 
     def __str__(self):
         return f"{self.entry.avar_word} (by user {self.uploaded_by})"
->>>>>>> b89423cb3eb365bfa0262e291e5493d4072ac306
