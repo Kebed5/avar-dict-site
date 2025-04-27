@@ -27,25 +27,6 @@ class SuggestedEntry(models.Model):
         return f"Suggestion: {self.avar_word}"
 
 
-class AudioEntry(models.Model):
-    entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name="audios")
-    audio_file = models.FileField(upload_to='audios/')
-    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Audio for {self.entry.avar_word}"
-
-    user_id = models.BigIntegerField()
-    avar_word = models.CharField(max_length=255)
-    russian_translation = models.TextField()
-    english_translation = models.TextField(blank=True, null=True)
-    example = models.TextField(blank=True, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.avar_word} (suggested by {self.user_id})"
-
 
 class AudioEntry(models.Model):
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, null=True, blank=True)
