@@ -9,7 +9,6 @@ admin.site.register(AudioEntry)
 # ✅ Entry with custom admin
 @admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
-<<<<<<< HEAD
     list_display = ("avar_word", "russian_translations", "english_translations", "created_by", "created_at")
 
 # ✅ SuggestedEntry with approval action
