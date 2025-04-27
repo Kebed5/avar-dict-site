@@ -3,9 +3,6 @@ from .models import AudioEntry, Entry, SuggestedEntry
 from django.utils.html import format_html
 
 
-# Register AudioEntry (if no custom admin needed)
-admin.site.register(AudioEntry)
-
 # ✅ Entry with custom admin
 @admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
